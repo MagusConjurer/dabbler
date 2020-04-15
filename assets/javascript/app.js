@@ -31,7 +31,7 @@ addLogin();
 
 function signedIn(){
   $(".navbar").empty();
-  var brand = '<a class="navbar-brand" href="#">Navbar</a>' +
+  var brand = '<a class="navbar-brand" href="#">Dabbler</a>' +
   '<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">' +
     '<span class="navbar-toggler-icon"></span>' +
   '</button>';
@@ -55,24 +55,43 @@ $(document).on("click", "#logoutBtn", function(event){
   addLogin();
 });
 
+$(document).on("click", "#submitNew", function(event){
+  event.preventDefault();
+  signedIn();
+  $("#myModal").css("display", "none");
+});
+
+$(document).on("click", "#newBtn", function(){
+  // When the user clicks the button, open the modal 
+  $("#myModal").css("display", "block");
+});
+$(document).on("click", ".close", function(){
+  // When the user clicks on <span> (x), close the modal
+  $("#myModal").css("display", "none");
+});
+
 function getMovies(){
     //need to clear search box and results with each button click
     $("#searchBox").empty()
+    $("#resultsBox").empty();
     $("#searchBox").append(search);
     $("#userInput").attr("placeHolder", "Movies");
 }
 function getMusic(){
     $("#searchBox").empty()
+    $("#resultsBox").empty();
     $("#searchBox").append(search);
     $("#userInput").attr("placeHolder", "Music");
 }
 function getBooks(){
     $("#searchBox").empty()
+    $("#resultsBox").empty();
     $("#searchBox").append(search);
     $("#userInput").attr("placeHolder", "Books");
 }
 function getGames(){
     $("#searchBox").empty()
+    $("#resultsBox").empty();
     $("#searchBox").append(search);
     $("#userInput").attr("placeHolder", "Games");
 }
