@@ -11,20 +11,41 @@
     <title>Dabbler!</title>
   </head>
   <body>
-    <nav class="navbar navbar-light bg-light">
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
         <form class="form-inline">
-            <div class="input2 pl-4">
-                <span class="input-group-text" id="basic-addon1">Username: </span>
-            </div>
-            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-            <div class="input2 pl-4">
-            <span class="input-group-text" id="basic-addon1">Password: </span>
-            </div>
-            <input type="text" class="form-control mr-4" placeholder="--------" aria-label="Username" aria-describedby="basic-addon1">
-            <button type="button" class="btn btn-dark">Submit</button>
-            </div>
-            </form>
-      </nav>
+          <div class="input2 pl-4">
+              <span class="input-group-text" id="newUsername">Username: </span>
+          </div>
+          <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="newUsername">
+          <div class="input2 pl-4">
+            <span class="input-group-text" id="newPassword">Password: </span>
+          </div>
+          <input type="text" class="form-control mr-4" placeholder="--------" aria-label="Password" aria-describedby="newPassword">
+          <div class="input2 pl-4">
+            <span class="input-group-text" id="newConfirm">Confirm Password: </span>
+          </div>
+          <input type="text" class="form-control mr-4" placeholder="--------" aria-label="Password" aria-describedby="newConfirm">
+          <button type="button" class="btn btn-dark" id="submitNew">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <nav class="navbar navbar-light bg-light">
+      <!-- <form class="form-inline">
+        <div class="input2 pl-4">
+            <span class="input-group-text" id="basic-addon1">Username: </span>
+        </div>
+        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+        <div class="input2 pl-4">
+          <span class="input-group-text" id="basic-addon2">Password: </span>
+        </div>
+        <input type="text" class="form-control mr-4" placeholder="--------" aria-label="Password" aria-describedby="basic-addon2">
+        <button type="button" class="btn btn-dark">Submit</button>
+        </div>
+      </form> -->
+    </nav>
       <div class="container text-center">
       <h1>Dabbler!</h1>
       <p>Relieve your quarantine bordom! Pick a media type and search for something that interest you.</p>
