@@ -76,6 +76,7 @@ function getMovies(){
     $("#resultsBox").empty();
     $("#searchBox").append(search);
     $("#userInput").attr("placeHolder", "Movies");
+    
 }
 function getMusic(){
     $("#searchBox").empty()
@@ -116,18 +117,52 @@ function createCards(input){
   $("#resultsBox").append(deck);
 }
 
-// function displayMovies() {
-//     var movieName = ""
-//     var queryUrl = "https://tastedive.com/api/similar?q=" + movieName + "&type=movies&k=363702-JoshDunc-DVBUOX50&info=1";
+function displayResults() {
+    var resultsArray = "";
+    var searchVal = $("#userInput").val();
+    var queryUrl = "https://tastedive.com/api/similar?q=" + searchVal + "&type=" + $("#userInput").attr('placeholder') + "&k=363702-JoshDunc-DVBUOX50&info=1";
    
-//     $.ajax({ url: queryUrl, method: "GET" }).then(function(response) {
-//         console.log(response);
-//     })
-// }
+    console.log(queryUrl);
+
+    $.ajax({ url: queryUrl, method: "GET" }).then(function(response) {
+      console.log(response);
+      
+    });
+  }
+function displayMusic(){
+  var searchVal = $("#userInput").val();
+  var queryUrl = "http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=" + searchVal + "&limit=10&api_key=ac29ff72d476b886824646dcd2eeea95&format=json";
+    
+  $.ajax({ url: queryUrl, method: "GET" }).then(function(response) {
+    console.log(response)
+      
+    for (i = 0; i < response.similarartists.artist.length; i++) {
+      console.log(i);
+      var musicUrl = response.similarartists.artist[i].url;
+      $(".card-footer").text(musicUrl);
+        //gifDiv.append(displayRating);
+        
+        // var animateGifs = response.data[i].images.fixed_height_downsampled.url;
+        // var displayGifs = $("<img>").attr("src", gifs);
+        // displayGifs.attr("still-image", gifs);
+        // displayGifs.attr("looping-image", animateGifs);
+        // displayGifs.attr("state", "still");
+        // gifDiv.append(displayGifs);
+
+        // var rating = response.data[i].rating;
+        // var displayRating = $("<p>").text("Rating: " + rating);
+        // gifDiv.append(displayRating);
+
+        // $("#gifsView").prepend(gifDiv);
+
+      };
+    });
+  };
 $(document).on("click", "#searchButton", function(event) {
   console.log("Worked");
   event.preventDefault();
   var userInput = $("#userInput").val();
   console.log(userInput)
   createCards(userInput);
+  displayMusic();
 });
