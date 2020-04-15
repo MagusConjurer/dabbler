@@ -39,6 +39,25 @@ function getGames(){
     $("#searchBox").append(gamesSearch);
 }
 
+function createCards(input){
+  var deck = $("<div>").addClass("card-deck");
+  for(var i = 0; i < 10; i++){
+    var cardColumn = $("<div>").addClass("col-sm-6");
+    var newCard = $("<div>").addClass("card");
+    var cardImage = $("<img>").addClass("card-img-top").attr("alt", "...");
+    var cardBody = $("<div>").addClass("card-body");
+    var cardName = $("<h5>").addClass("card-title").text(input);
+    var cardTeaser = $("<p>").addClass("card-text");
+    var cardLink = $("<div>").addClass("card-footer").html("<small class='text-muted'>Last updated 3 mins ago</small>");
+
+    cardBody.append(cardName,cardTeaser,cardLink);
+    newCard.append(cardImage, cardBody);
+    cardColumn.append(newCard);
+    deck.append(cardColumn);
+  }
+  $("#resultsBox").append(deck);
+}
+
 // function displayMovies() {
 //     $("#resultsBox").empty();
 //     var movieName = ""
@@ -48,10 +67,10 @@ function getGames(){
 //         console.log(response);
 //     })
 // }
-$(document)
-$("#searchButton").on("click", function(event) {
-    console.log("Worked");
-    event.preventDefault();
-    var movieName = $("#movieInfo").val().trim();
-    console.log(movieName)
+$(document).on("click", "#searchButton", function(event) {
+  console.log("Worked");
+  event.preventDefault();
+  var movieName = $("#movieInfo").val().trim();
+  console.log(movieName)
+  createCards();
 });
