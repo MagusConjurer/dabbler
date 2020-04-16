@@ -100,24 +100,47 @@ function getGames(){
 function createCards(input){
   $("#resultsBox").empty();
   var deck = $("<div>").addClass("card-deck");
-  
   var searchVal = $("#userInput").val();
-  var queryUrl = "http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=" + searchVal + "&limit=10&api_key=ac29ff72d476b886824646dcd2eeea95&format=json";
-  
+
+  // if($("#userInput").attr("placeHolder") == "Movies"){
+  //   var queryUrl = "";
+  // }
+  if($("#userInput").attr("placeHolder") == "Music"){
+    var queryUrl = "http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=" + searchVal + "&limit=10&api_key=ac29ff72d476b886824646dcd2eeea95&format=json";
+  }
+  // else if($("#userInput").attr("placeHolder") == "Books"){
+  //   var queryUrl = "";
+  // }
+  // else if($("#userInput").attr("placeHolder") == "Games"){
+  //   var queryUrl = "";
+  // }
   $.ajax({ url: queryUrl, method: "GET" }).then(function(response) {
     
-    //Make an if statement that checks the type and changes title and url based on what the type is
-    // var title = response.similarartists.artist[i].name;
-    // var url = response.similarartists.artist[i].url;
+     for(var i = 0; i < 10; i++){
 
-    for(var i = 0; i < 10; i++){
+      // if($("#userInput").attr("placeHolder") == "Movie"){
+      //   var title = "";
+      //   var url = "";
+      // }
+      if($("#userInput").attr("placeHolder") == "Music"){
+        var title = response.similarartists.artist[i].name;
+        var url = response.similarartists.artist[i].url;
+      }
+      // else if($("#userInput").attr("placeHolder") == "Books"){
+      //   var title = "";
+      //   var url = "";
+      // }
+      // else if($("#userInput").attr("placeHolder") == "Games"){
+      //   var title = "",
+      //   var url = "",
+      // }
       var cardColumn = $("<div>").addClass("col-sm-6");
       var newCard = $("<div>").addClass("card");
       var cardImage = $("<img>").addClass("card-img-top").attr("alt", "...");
       var cardBody = $("<div>").addClass("card-body");
-      var cardName = $("<h5>").addClass("card-title").text();
+      var cardName = $("<h5>").addClass("card-title").text(title);
       var cardTeaser = $("<p>").addClass("card-text");
-      var cardLink = $("<div>").addClass("card-footer").html("<small class='text-muted'>" + "<a href>" + response.similarartists.artist[i].url + "</a>" + "</small>");
+      var cardLink = $("<div>").addClass("card-footer").html("<small class='text-muted'>" + "<a href>" + url + "</a>" + "</small>");
 
       cardBody.append(cardName,cardTeaser,cardLink);
       newCard.append(cardImage, cardBody);
@@ -140,28 +163,11 @@ function displayResults() {
     
   });
 }
-
-
-// function displayMusic(){
-//   var searchVal = $("#userInput").val();
-//   var queryUrl = "http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=" + searchVal + "&limit=10&api_key=ac29ff72d476b886824646dcd2eeea95&format=json";
-    
-//   $.ajax({ url: queryUrl, method: "GET" }).then(function(response) {
-//     console.log(response)
-      
-//     for (i = 0; i < response.similarartists.artist.length; i++) {
-//       //console.log(i);
-//       //var musicUrl = response.similarartists.artist[i].url;
-//       //$(".card-footer").text(musicUrl);
-//         
-//       };
-//     });
-//   };
 $(document).on("click", "#searchButton", function(event) {
   console.log("Worked");
   event.preventDefault();
   var userInput = $("#userInput").val();
   console.log(userInput)
   createCards(userInput);
-  //displayResults();
+  displayResults();
 });
