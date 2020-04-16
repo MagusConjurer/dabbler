@@ -100,69 +100,68 @@ function getGames(){
 function createCards(input){
   $("#resultsBox").empty();
   var deck = $("<div>").addClass("card-deck");
-  for(var i = 0; i < 10; i++){
-    var cardColumn = $("<div>").addClass("col-sm-6");
-    var newCard = $("<div>").addClass("card");
-    var cardImage = $("<img>").addClass("card-img-top").attr("alt", "...");
-    var cardBody = $("<div>").addClass("card-body");
-    var cardName = $("<h5>").addClass("card-title").text(input);
-    var cardTeaser = $("<p>").addClass("card-text");
-    var cardLink = $("<div>").addClass("card-footer").html("<small class='text-muted'>Last updated 3 mins ago</small>");
+  
+  var searchVal = $("#userInput").val();
+  var queryUrl = "http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=" + searchVal + "&limit=10&api_key=ac29ff72d476b886824646dcd2eeea95&format=json";
+  
+  $.ajax({ url: queryUrl, method: "GET" }).then(function(response) {
+    
+    //Make an if statement that checks the type and changes title and url based on what the type is
+    // var title = response.similarartists.artist[i].name;
+    // var url = response.similarartists.artist[i].url;
 
-    cardBody.append(cardName,cardTeaser,cardLink);
-    newCard.append(cardImage, cardBody);
-    cardColumn.append(newCard);
-    deck.append(cardColumn);
-  }
+    for(var i = 0; i < 10; i++){
+      var cardColumn = $("<div>").addClass("col-sm-6");
+      var newCard = $("<div>").addClass("card");
+      var cardImage = $("<img>").addClass("card-img-top").attr("alt", "...");
+      var cardBody = $("<div>").addClass("card-body");
+      var cardName = $("<h5>").addClass("card-title").text();
+      var cardTeaser = $("<p>").addClass("card-text");
+      var cardLink = $("<div>").addClass("card-footer").html("<small class='text-muted'>" + "<a href>" + response.similarartists.artist[i].url + "</a>" + "</small>");
+
+      cardBody.append(cardName,cardTeaser,cardLink);
+      newCard.append(cardImage, cardBody);
+      cardColumn.append(newCard);
+      deck.append(cardColumn);
+    }
+  });
   $("#resultsBox").append(deck);
 }
 
 function displayResults() {
-    var resultsArray = "";
-    var searchVal = $("#userInput").val();
-    var queryUrl = "https://tastedive.com/api/similar?q=" + searchVal + "&type=" + $("#userInput").attr('placeholder') + "&k=363702-JoshDunc-DVBUOX50&info=1";
-   
-    console.log(queryUrl);
-
-    $.ajax({ url: queryUrl, method: "GET" }).then(function(response) {
-      console.log(response);
-      
-    });
-  }
-function displayMusic(){
+  var resultsArray = "";
   var searchVal = $("#userInput").val();
-  var queryUrl = "http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=" + searchVal + "&limit=10&api_key=ac29ff72d476b886824646dcd2eeea95&format=json";
-    
+  var queryUrl = "https://tastedive.com/api/similar?q=" + searchVal + "&type=" + $("#userInput").attr('placeholder') + "&k=363702-JoshDunc-TBJLDDGT&info=1";
+  
+  console.log(queryUrl);
+
   $.ajax({ url: queryUrl, method: "GET" }).then(function(response) {
-    console.log(response)
+    console.log(response);
+    
+  });
+}
+
+
+// function displayMusic(){
+//   var searchVal = $("#userInput").val();
+//   var queryUrl = "http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=" + searchVal + "&limit=10&api_key=ac29ff72d476b886824646dcd2eeea95&format=json";
+    
+//   $.ajax({ url: queryUrl, method: "GET" }).then(function(response) {
+//     console.log(response)
       
-    for (i = 0; i < response.similarartists.artist.length; i++) {
-      console.log(i);
-      var musicUrl = response.similarartists.artist[i].url;
-      $(".card-footer").text(musicUrl);
-        //gifDiv.append(displayRating);
-        
-        // var animateGifs = response.data[i].images.fixed_height_downsampled.url;
-        // var displayGifs = $("<img>").attr("src", gifs);
-        // displayGifs.attr("still-image", gifs);
-        // displayGifs.attr("looping-image", animateGifs);
-        // displayGifs.attr("state", "still");
-        // gifDiv.append(displayGifs);
-
-        // var rating = response.data[i].rating;
-        // var displayRating = $("<p>").text("Rating: " + rating);
-        // gifDiv.append(displayRating);
-
-        // $("#gifsView").prepend(gifDiv);
-
-      };
-    });
-  };
+//     for (i = 0; i < response.similarartists.artist.length; i++) {
+//       //console.log(i);
+//       //var musicUrl = response.similarartists.artist[i].url;
+//       //$(".card-footer").text(musicUrl);
+//         
+//       };
+//     });
+//   };
 $(document).on("click", "#searchButton", function(event) {
   console.log("Worked");
   event.preventDefault();
   var userInput = $("#userInput").val();
   console.log(userInput)
   createCards(userInput);
-  displayMusic();
+  //displayResults();
 });
