@@ -39,8 +39,8 @@ function signedIn() {
     '</button>';
   var altMarkup = $("<div>").addClass("collapse navbar-collapse").attr("id", "navbarNavAltMarkup");
   var signedNav = $("<div>").addClass("navbar-nav");
-  var user = $("<a>").addClass("nav-item nav-link active").attr("href", "").text("Test Account");
-  var recent = $("<a>").addClass("nav-item nav-link").attr("href", "").text("Recent");
+  var user = $("<a>").addClass("nav-item nav-link active ml-auto").attr("href", "").text("Test Account");
+  var recent = $("<a>").addClass("nav-item nav-link ml-auto").attr("href", "").text("Recent");
   var logout = $("<button>").addClass("btn btn-dark").attr({ type: "button", id: "logoutBtn" }).text("Logout");
   signedNav.append(user, recent, logout);
   altMarkup.append(signedNav);
@@ -122,7 +122,7 @@ function displayResults() {
           var url = "";
           var image = "";
 
-          var newColumn = createCard(title, url);
+          var newColumn = createCard(title, url, image);
           deck.append(newColumn);
         });
       }
@@ -152,7 +152,7 @@ function displayResults() {
           var url = "";
           var image = "";
 
-          var newColumn = createCard(title, url);
+          var newColumn = createCard(title, url, image);
           deck.append(newColumn);
         });
       }
@@ -167,7 +167,7 @@ function displayResults() {
           var url = "";
           var image = "";
 
-          var newColumn = createCard(title, url);
+          var newColumn = createCard(title, url, image);
           deck.append(newColumn);
         });
       }
@@ -199,4 +199,22 @@ $(document).on("click", "#searchButton", function (event) {
   var userInput = $("#userInput").val();
   console.log(userInput)
   displayResults();
+});
+
+var granimInstance = new Granim({
+  element: '#logo-canvas',
+  direction: 'left-right',
+  states : {
+      "default-state": {
+          gradients: [
+              ['#EB3349', '#F45C43'],
+              ['#FF8008', '#FFC837'],
+              ['#4CB8C4', '#3CD3AD'],
+              ['#24C6DC', '#514A9D'],
+              ['#FF512F', '#DD2476'],
+              ['#DA22FF', '#9733EE']
+          ],
+          transitionSpeed: 2000
+      }
+  }
 });
