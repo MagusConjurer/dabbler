@@ -105,8 +105,7 @@ function displayResults() {
   var searchVal = $("#userInput").val();
   var queryUrl = "https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=" + searchVal + "&type=" + $("#userInput").attr('placeholder') + "&k=363702-JoshDunc-TBJLDDGT&info=1";
 
-  console.log(queryUrl);
-
+  resultsArray = [];
   $.ajax({ url: queryUrl, method: "GET" }).then(function (response) {
     for (var i = 0; i < 10; i++) {
       resultsArray.push(response.Similar.Results[i].Name);
@@ -131,7 +130,6 @@ function displayResults() {
       var queryUrl = "";
       for (var j = 0; j < 10; j++) {
         queryUrl = "https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + resultsArray[j] + "&api_key=ac29ff72d476b886824646dcd2eeea95&format=json";
-        console.log(queryUrl);
         $.ajax({ url: queryUrl, method: "GET" }).then(function (response) {
           var title = response.artist.name;
           var url = response.artist.url;
@@ -194,10 +192,8 @@ function createCard(title, url, image) {
 }
 
 $(document).on("click", "#searchButton", function (event) {
-  console.log("Worked");
   event.preventDefault();
   var userInput = $("#userInput").val();
-  console.log(userInput)
   displayResults();
 });
 
