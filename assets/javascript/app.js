@@ -105,8 +105,8 @@ function createCards(input){
   // if($("#userInput").attr("placeHolder") == "Movies"){
   //   var queryUrl = "";
   // }
-  if($("#userInput").attr("placeHolder") == "Music"){
-    var queryUrl = "http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=" + searchVal + "&limit=10&api_key=ac29ff72d476b886824646dcd2eeea95&format=json";
+  if ($("#userInput").attr("placeHolder") == "Music"){
+    var queryUrl = "https://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=" + searchVal + "&limit=10&api_key=ac29ff72d476b886824646dcd2eeea95&format=json";
   }
   // else if($("#userInput").attr("placeHolder") == "Books"){
   //   var queryUrl = "";
@@ -154,7 +154,7 @@ function createCards(input){
 function displayResults() {
   var resultsArray = "";
   var searchVal = $("#userInput").val();
-  var queryUrl = "https://tastedive.com/api/similar?q=" + searchVal + "&type=" + $("#userInput").attr('placeholder') + "&k=363702-JoshDunc-TBJLDDGT&info=1";
+  var queryUrl = "https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=" + searchVal + "&type=" + $("#userInput").attr('placeholder') + "&k=363702-JoshDunc-TBJLDDGT&info=1";
   
   console.log(queryUrl);
 
