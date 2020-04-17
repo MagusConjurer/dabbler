@@ -76,6 +76,7 @@ function getMovies(){
     $("#resultsBox").empty();
     $("#searchBox").append(search);
     $("#userInput").attr("placeHolder", "Movies");
+    
 }
 function getMusic(){
     $("#searchBox").empty()
@@ -99,35 +100,74 @@ function getGames(){
 function createCards(input){
   $("#resultsBox").empty();
   var deck = $("<div>").addClass("card-deck");
-  for(var i = 0; i < 10; i++){
-    var cardColumn = $("<div>").addClass("col-sm-6");
-    var newCard = $("<div>").addClass("card");
-    var cardImage = $("<img>").addClass("card-img-top").attr("alt", "...");
-    var cardBody = $("<div>").addClass("card-body");
-    var cardName = $("<h5>").addClass("card-title").text(input);
-    var cardTeaser = $("<p>").addClass("card-text");
-    var cardLink = $("<div>").addClass("card-footer").html("<small class='text-muted'>Last updated 3 mins ago</small>");
+  var searchVal = $("#userInput").val();
 
-    cardBody.append(cardName,cardTeaser,cardLink);
-    newCard.append(cardImage, cardBody);
-    cardColumn.append(newCard);
-    deck.append(cardColumn);
+  // if($("#userInput").attr("placeHolder") == "Movies"){
+  //   var queryUrl = "";
+  // }
+  if ($("#userInput").attr("placeHolder") == "Music"){
+    var queryUrl = "https://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=" + searchVal + "&limit=10&api_key=ac29ff72d476b886824646dcd2eeea95&format=json";
   }
+  // else if($("#userInput").attr("placeHolder") == "Books"){
+  //   var queryUrl = "";
+  // }
+  // else if($("#userInput").attr("placeHolder") == "Games"){
+  //   var queryUrl = "";
+  // }
+  $.ajax({ url: queryUrl, method: "GET" }).then(function(response) {
+    
+     for(var i = 0; i < 10; i++){
+
+      // if($("#userInput").attr("placeHolder") == "Movie"){
+      //   var title = "";
+      //   var url = "";
+      // }
+      if($("#userInput").attr("placeHolder") == "Music"){
+        var title = response.similarartists.artist[i].name;
+        var url = response.similarartists.artist[i].url;
+      }
+      // else if($("#userInput").attr("placeHolder") == "Books"){
+      //   var title = "";
+      //   var url = "";
+      // }
+      // else if($("#userInput").attr("placeHolder") == "Games"){
+      //   var title = "",
+      //   var url = "",
+      // }
+      var cardColumn = $("<div>").addClass("col-sm-6");
+      var newCard = $("<div>").addClass("card");
+      var cardImage = $("<img>").addClass("card-img-top").attr("alt", "...");
+      var cardBody = $("<div>").addClass("card-body");
+      var cardName = $("<h5>").addClass("card-title").text(title);
+      var cardTeaser = $("<p>").addClass("card-text");
+      var cardLink = $("<div>").addClass("card-footer").html("<small class='text-muted'>" + "<a href>" + url + "</a>" + "</small>");
+
+      cardBody.append(cardName,cardTeaser,cardLink);
+      newCard.append(cardImage, cardBody);
+      cardColumn.append(newCard);
+      deck.append(cardColumn);
+    }
+  });
   $("#resultsBox").append(deck);
 }
 
-// function displayMovies() {
-//     var movieName = ""
-//     var queryUrl = "https://tastedive.com/api/similar?q=" + movieName + "&type=movies&k=363702-JoshDunc-DVBUOX50&info=1";
-   
-//     $.ajax({ url: queryUrl, method: "GET" }).then(function(response) {
-//         console.log(response);
-//     })
-// }
+function displayResults() {
+  var resultsArray = "";
+  var searchVal = $("#userInput").val();
+  var queryUrl = "https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=" + searchVal + "&type=" + $("#userInput").attr('placeholder') + "&k=363702-JoshDunc-TBJLDDGT&info=1";
+  
+  console.log(queryUrl);
+
+  $.ajax({ url: queryUrl, method: "GET" }).then(function(response) {
+    console.log(response);
+    
+  });
+}
 $(document).on("click", "#searchButton", function(event) {
   console.log("Worked");
   event.preventDefault();
   var userInput = $("#userInput").val();
   console.log(userInput)
   createCards(userInput);
+  displayResults();
 });
