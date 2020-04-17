@@ -105,7 +105,7 @@ function displayResults() {
   var searchVal = $("#userInput").val();
   var queryUrl = "https://cors-anywhere.herokuapp.com/https://tastedive.com/api/similar?q=" + searchVal + "&type=" + $("#userInput").attr('placeholder') + "&k=363702-JoshDunc-TBJLDDGT&info=1";
 
-  console.log(queryUrl);
+  console.log(resultsArray);
 
   $.ajax({ url: queryUrl, method: "GET" }).then(function (response) {
     for (var i = 0; i < 10; i++) {
@@ -145,16 +145,18 @@ function displayResults() {
     }else if($("#userInput").attr("placeHolder") == "Books"){
       var queryUrl = "";
       for (var j = 0; j < 10; j++) {
-        queryUrl = "" + resultsArray[j] + "";
-        
+        queryUrl = "https://www.googleapis.com/books/v1/volumes?q=" + resultsArray[j];
+        console.log(queryUrl);
         $.ajax({ url: queryUrl, method: "GET" }).then(function (response) {
-          var title = "";
-          var url = "";
-          var image = "";
-
+          var title = response.items.volumeInfo.title;
+          var url = response.items.volumeInfo.infoLink;
+          var image = response.items.volumeInfo.imageLinks.thumbnail;
+          
           var newColumn = createCard(title, url, image);
           deck.append(newColumn);
+          
         });
+        console.log(response)
       }
       $("#resultsBox").append(deck);
     }else if($("#userInput").attr("placeHolder") == "Games"){
