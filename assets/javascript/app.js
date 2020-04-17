@@ -118,8 +118,9 @@ function displayResults() {
         queryUrl = "" + resultsArray[j] + "";
         
         $.ajax({ url: queryUrl, method: "GET" }).then(function (response) {
-          var title = response.artist.name;
-          var url = response.artist.url;
+          var title = "";
+          var url = "";
+          var image = "";
 
           var newColumn = createCard(title, url);
           deck.append(newColumn);
@@ -134,8 +135,9 @@ function displayResults() {
         $.ajax({ url: queryUrl, method: "GET" }).then(function (response) {
           var title = response.artist.name;
           var url = response.artist.url;
+          var image = "https://lastfm.freetls.fastly.net/i/u/64s/2a96cbd8b46e442fc41c2b86b821562f.png";
 
-          var newColumn = createCard(title, url);
+          var newColumn = createCard(title, url, image);
           deck.append(newColumn);
         });
       }
@@ -146,8 +148,9 @@ function displayResults() {
         queryUrl = "" + resultsArray[j] + "";
         
         $.ajax({ url: queryUrl, method: "GET" }).then(function (response) {
-          var title = response.artist.name;
-          var url = response.artist.url;
+          var title = "";
+          var url = "";
+          var image = "";
 
           var newColumn = createCard(title, url);
           deck.append(newColumn);
@@ -160,8 +163,9 @@ function displayResults() {
         queryUrl = "" + resultsArray[j] + "";
         
         $.ajax({ url: queryUrl, method: "GET" }).then(function (response) {
-          var title = response.artist.name;
-          var url = response.artist.url;
+          var title = "";
+          var url = "";
+          var image = "";
 
           var newColumn = createCard(title, url);
           deck.append(newColumn);
@@ -174,10 +178,10 @@ function displayResults() {
 
 }
 
-function createCard(title, url) {
+function createCard(title, url, image) {
   var cardColumn = $("<div>").addClass("col-sm-6");
   var newCard = $("<div>").addClass("card");
-  var cardImage = $("<img>").addClass("card-img-top").attr("alt", "...");
+  var cardImage = $("<img>").addClass("card-img-top").attr({alt: "...", src: image});
   var cardBody = $("<div>").addClass("card-body");
   var cardName = $("<h5>").addClass("card-title").text(title);
   var cardTeaser = $("<p>").addClass("card-text");
