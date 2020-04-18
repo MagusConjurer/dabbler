@@ -115,12 +115,12 @@ function displayResults() {
     if($("#userInput").attr("placeHolder") == "Movies"){
       var queryUrl = "";
       for (var j = 0; j < 10; j++) {
-        queryUrl = "" + resultsArray[j] + "";
+        queryUrl = "http://www.omdbapi.com/?t=" + resultsArray[j] + "&apikey=1465f66e";
         
         $.ajax({ url: queryUrl, method: "GET" }).then(function (response) {
-          var title = "";
-          var url = "";
-          var image = "";
+          var title = response.Title;
+          var url = response.Website;
+          var image = response.Poster;
 
           var newColumn = createCard(title, url, image);
           deck.append(newColumn);
