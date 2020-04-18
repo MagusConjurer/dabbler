@@ -84,7 +84,7 @@ function getBooks() {
   $("#searchBox").empty()
   $("#resultsBox").empty();
   $("#searchBox").append(search);
-  $("#userInput").attr("placeHolder", "Books  (title)");
+  $("#userInput").attr("placeHolder", "Books (title)");
 }
 function getGames() {
   $("#searchBox").empty()
@@ -109,7 +109,7 @@ function displayResults() {
     if($("#userInput").attr("placeHolder") == "Movies"){
       var queryUrl = "";
       for (var j = 0; j < 10; j++) {
-        queryUrl = "http://www.omdbapi.com/?t=" + resultsArray[j] + "&apikey=1465f66e";
+        queryUrl = "https://www.omdbapi.com/?t=" + resultsArray[j] + "&apikey=1465f66e";
         
         $.ajax({ url: queryUrl, method: "GET" }).then(function (response) {
           var title = response.Title;
@@ -139,7 +139,9 @@ function displayResults() {
       var queryUrl = "";
       for (var j = 0; j < resultsArray.length; j++) {
         queryUrl = "https://www.googleapis.com/books/v1/volumes?q=" + resultsArray[j] + "&key=AIzaSyDWyfBS-uIsXX43Lj_Eu0WukD9mRYdNGxw";
-        $.ajax({ url: queryUrl, method: "GET" }).then(function (response2) {
+        $.ajax({ url: queryUrl, method: "GET", error: function(err){
+          console.log(err);
+        }}).then(function (response2) {
           var title = response2.items[0].volumeInfo.title;
           var url = response2.items[0].volumeInfo.canonicalVolumeLink;
           var image = response2.items[0].volumeInfo.imageLinks.thumbnail;
