@@ -107,6 +107,7 @@ function displayResults() {
 
 
   $.ajax({ url: queryUrl, method: "GET" }).then(function (response) {
+    resultsArray = [];
     for (var i = 0; i < 10; i++) {
       resultsArray.push(response.Similar.Results[i].Name);
     }
@@ -130,7 +131,6 @@ function displayResults() {
       var queryUrl = "";
       for (var j = 0; j < 10; j++) {
         queryUrl = "https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + resultsArray[j] + "&api_key=ac29ff72d476b886824646dcd2eeea95&format=json";
-        console.log(queryUrl);
         $.ajax({ url: queryUrl, method: "GET" }).then(function (response) {
           var title = response.artist.name;
           var url = response.artist.url;
@@ -145,10 +145,7 @@ function displayResults() {
       var queryUrl = "";
       for (var j = 0; j < resultsArray.length; j++) {
         queryUrl = "https://www.googleapis.com/books/v1/volumes?q=" + resultsArray[j] + "&key=AIzaSyDWyfBS-uIsXX43Lj_Eu0WukD9mRYdNGxw";
-        //console.log(queryUrl);
         $.ajax({ url: queryUrl, method: "GET" }).then(function (response2) {
-          console.log(response2);
-
           var title = response2.items[0].volumeInfo.title;
           var url = response2.items[0].volumeInfo.canonicalVolumeLink;
           var image = response2.items[0].volumeInfo.imageLinks.thumbnail;
@@ -229,10 +226,7 @@ function createCard(title, url, image) {
 }
 
 $(document).on("click", "#searchButton", function (event) {
-  console.log("Worked");
   event.preventDefault();
-  var userInput = $("#userInput").val();
-  console.log(userInput)
   displayResults();
 });
 
