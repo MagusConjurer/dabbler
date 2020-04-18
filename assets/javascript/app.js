@@ -39,8 +39,8 @@ function signedIn() {
     '</button>';
   var altMarkup = $("<div>").addClass("collapse navbar-collapse").attr("id", "navbarNavAltMarkup");
   var signedNav = $("<div>").addClass("navbar-nav");
-  var user = $("<a>").addClass("nav-item nav-link active ml-auto").attr("href", "").text("Test Account");
-  var recent = $("<a>").addClass("nav-item nav-link ml-auto").attr("href", "").text("Recent");
+  var user = $("<a>").addClass("nav-item nav-link active ml").attr("href", "").text("Test Account");
+  var recent = $("<a>").addClass("nav-item nav-link").attr("href", "").text("Recent");
   var logout = $("<button>").addClass("btn btn-dark").attr({ type: "button", id: "logoutBtn" }).text("Logout");
   signedNav.append(user, recent, logout);
   altMarkup.append(signedNav);
@@ -107,6 +107,7 @@ function displayResults() {
 
 
   $.ajax({ url: queryUrl, method: "GET" }).then(function (response) {
+    resultsArray = [];
     for (var i = 0; i < 10; i++) {
       resultsArray.push(response.Similar.Results[i].Name);
     }
@@ -130,7 +131,6 @@ function displayResults() {
       var queryUrl = "";
       for (var j = 0; j < 10; j++) {
         queryUrl = "https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + resultsArray[j] + "&api_key=ac29ff72d476b886824646dcd2eeea95&format=json";
-        console.log(queryUrl);
         $.ajax({ url: queryUrl, method: "GET" }).then(function (response) {
           var title = response.artist.name;
           var url = response.artist.url;
@@ -145,10 +145,7 @@ function displayResults() {
       var queryUrl = "";
       for (var j = 0; j < resultsArray.length; j++) {
         queryUrl = "https://www.googleapis.com/books/v1/volumes?q=" + resultsArray[j] + "&key=AIzaSyDWyfBS-uIsXX43Lj_Eu0WukD9mRYdNGxw";
-        //console.log(queryUrl);
         $.ajax({ url: queryUrl, method: "GET" }).then(function (response2) {
-          console.log(response2);
-
           var title = response2.items[0].volumeInfo.title;
           var url = response2.items[0].volumeInfo.canonicalVolumeLink;
           var image = response2.items[0].volumeInfo.imageLinks.thumbnail;
@@ -162,15 +159,48 @@ function displayResults() {
     }else if($("#userInput").attr("placeHolder") == "Games"){
       var queryUrl = "";
       for (var j = 0; j < 10; j++) {
-        queryUrl = "" + resultsArray[j] + "";
-        
-        $.ajax({ url: queryUrl, method: "GET" }).then(function (response) {
-          var title = "";
-          var url = "";
-          var image = "";
-
-          var newColumn = createCard(title, url, image);
-          deck.append(newColumn);
+        $.ajax({ 
+          url: "https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com/games?search=" + resultsArray[j] + "&fields=name,cover,websites", 
+          method: "GET", 
+          headers: {
+            'Accept': 'application/json',
+            'user-key': '8c7e7f3b8ffb943b611bba109741ac8d'
+          }
+          }).then(function (gameRes) {
+            var url = "";
+            var image = "";
+            var title = gameRes[0].name;
+            var website = gameRes[0].websites[0];
+            var cover = gameRes[0].cover;
+            if(website != undefined){
+              $.ajax({
+                url: "https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com/websites/" + website + "?fields=url", 
+                method: "GET", 
+                headers: {
+                  'Accept': 'application/json',
+                  'user-key': '8c7e7f3b8ffb943b611bba109741ac8d'
+                }
+              }).then(function(webRes){
+                url = webRes[0].url;
+                if(url == undefined){
+                  url = webRes.url;
+                };
+                if(cover != undefined){
+                  $.ajax({ 
+                    url: "https://cors-anywhere.herokuapp.com/https://api-v3.igdb.com/covers/" + cover + "?fields=url", 
+                    method: "GET", 
+                    headers: {
+                      'Accept': 'application/json',
+                      'user-key': '8c7e7f3b8ffb943b611bba109741ac8d'
+                    }
+                  }).then(function(imageRes){
+                    image = "https:" + imageRes[0].url;
+                    var newColumn = createCard(title, url, image);
+                    deck.append(newColumn);
+                  });    
+                };
+              });
+            } 
         });
       }
       $("#resultsBox").append(deck);
@@ -187,7 +217,7 @@ function createCard(title, url, image) {
   var cardBody = $("<div>").addClass("card-body");
   var cardName = $("<h5>").addClass("card-title").text(title);
   var cardTeaser = $("<p>").addClass("card-text");
-  var cardLink = $("<div>").addClass("card-footer").html("<small class='text-muted'>" + "<a href>" + url + "</a>" + "</small>");
+  var cardLink = $("<div>").addClass("card-footer").html("<small class='text-muted'>" + "<a href='" + url + "'" + ">" + url + "</a>" + "</small>");
 
   cardBody.append(cardName, cardTeaser, cardLink);
   newCard.append(cardImage, cardBody);
@@ -196,10 +226,7 @@ function createCard(title, url, image) {
 }
 
 $(document).on("click", "#searchButton", function (event) {
-  console.log("Worked");
   event.preventDefault();
-  var userInput = $("#userInput").val();
-  console.log(userInput)
   displayResults();
 });
 
