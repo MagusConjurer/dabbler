@@ -11,7 +11,7 @@ body {
   min-width: 175px;
 }
 
-#modal-control {
+.modal-control {
   max-width: 50%;
   min-width: 200px;
   margin: 5px 0px 5px 25px;
