@@ -5,6 +5,22 @@ body {
 .navbar-nav {
   background-color: rgb(235, 235, 235);
 }
+
+.input2 {
+  max-width: 15%;
+  min-width: 175px;
+}
+
+.form-control {
+  max-width: 50%;
+  min-width: 200px;
+  margin: 5px 0px 5px 25px;
+}
+
+#submitNew {
+  margin: 0px 25px;
+}
+
 #newBtn {
   margin: 0px 20px;
 }
@@ -34,7 +50,7 @@ body {
 }
 
 .modal-content {
-  height: 50vh;
+  height: 60vh;
   width: 75%;
   margin: 0px auto 0px auto;
 }
