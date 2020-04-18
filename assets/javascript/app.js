@@ -4,14 +4,8 @@ var search = '<div class="input-group">' +
   '</div>';
 
 var loginForm = '<form class="form-inline">' +
-  '<div class="input2 pl-4">' +
-  '<span class="input-group-text" id="basic-addon1">Username: </span>' +
-  '</div>' +
   '<input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">' +
-  '<div class="input2 pl-4">' +
-  '<span class="input-group-text" id="basic-addon2">Password: </span>' +
-  '</div>' +
-  '<input type="text" class="form-control mr-4" placeholder="--------" aria-label="Password" aria-describedby="basic-addon2">' +
+  '<input type="text" class="form-control mr-4" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2">' +
   '</div>' +
   '<button type="button" class="btn btn-dark" id="submitBtn">Submit</button>' +
   '<button type="button" class="btn btn-info" id="newBtn">New User</button>' +
@@ -39,8 +33,8 @@ function signedIn() {
     '</button>';
   var altMarkup = $("<div>").addClass("collapse navbar-collapse").attr("id", "navbarNavAltMarkup");
   var signedNav = $("<div>").addClass("navbar-nav");
-  var user = $("<a>").addClass("nav-item nav-link active ml").attr("href", "").text("Test Account");
-  var recent = $("<a>").addClass("nav-item nav-link").attr("href", "").text("Recent");
+  var user = $("<a>").addClass("nav-item nav-link active ml-auto").attr("href", "").text("Test Account");
+  var recent = $("<a>").addClass("nav-item nav-link ml-auto").attr("href", "").text("Recent");
   var logout = $("<button>").addClass("btn btn-dark").attr({ type: "button", id: "logoutBtn" }).text("Logout");
   signedNav.append(user, recent, logout);
   altMarkup.append(signedNav);
@@ -84,13 +78,13 @@ function getMusic() {
   $("#searchBox").empty()
   $("#resultsBox").empty();
   $("#searchBox").append(search);
-  $("#userInput").attr("placeHolder", "Music");
+  $("#userInput").attr("placeHolder", "Music (artist)");
 }
 function getBooks() {
   $("#searchBox").empty()
   $("#resultsBox").empty();
   $("#searchBox").append(search);
-  $("#userInput").attr("placeHolder", "Books");
+  $("#userInput").attr("placeHolder", "Books  (title)");
 }
 function getGames() {
   $("#searchBox").empty()
@@ -127,7 +121,7 @@ function displayResults() {
         });
       }
       $("#resultsBox").append(deck);
-    }else if ($("#userInput").attr("placeHolder") == "Music") {
+    }else if ($("#userInput").attr("placeHolder") == "Music (artist)") {
       var queryUrl = "";
       for (var j = 0; j < 10; j++) {
         queryUrl = "https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + resultsArray[j] + "&api_key=ac29ff72d476b886824646dcd2eeea95&format=json";
@@ -141,7 +135,7 @@ function displayResults() {
         });
       }
       $("#resultsBox").append(deck);
-    }else if($("#userInput").attr("placeHolder") == "Books"){
+    }else if($("#userInput").attr("placeHolder") == "Books (title)"){
       var queryUrl = "";
       for (var j = 0; j < resultsArray.length; j++) {
         queryUrl = "https://www.googleapis.com/books/v1/volumes?q=" + resultsArray[j] + "&key=AIzaSyDWyfBS-uIsXX43Lj_Eu0WukD9mRYdNGxw";
